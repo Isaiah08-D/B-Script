@@ -6,7 +6,7 @@ compile = Compile()
 
 while True:
     code = input('>>> ')
-    t = compile.compile(code)
+    t = compile.compile(code, vars)
     if t[0] == 'ERROR':
         print(t[0] + '\n' + t[1])
     elif t[0] == 'END':
