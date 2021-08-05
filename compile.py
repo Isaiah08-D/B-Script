@@ -5,7 +5,7 @@ class Compile:
     def __init__(self):
         self.commands = {'var': self.var, 'env': self.env, 'show': self.show, 'end': self.end, 'get': self.get, 'python': self.python}
 
-    def compile(self, code=str, vars=type, **kwargs):
+    def compile(self, vars, code=str, **kwargs):
         """
         Compiles code.
         :param code: line of code
@@ -29,14 +29,19 @@ class Compile:
         """
         Set or change a variable.
         """
+        code = code.strip(' ')
         break_ = code.find('>') # find the index of where the secound argument is placed
         if break_ == -1:
             return ['ERROR', 'Could not find second ">" character. ">" needed before second argument.']
 
-        return ['']
+
+        return ['VAR', ['def', code[:break_], code[break_+1:]]]
 
     def get(self, code=str):
         """Get a variable."""
+
+        x = self.vars.get(code)
+        return x
 
     def env(self, code=str):
         return ['']
