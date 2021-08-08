@@ -49,7 +49,7 @@ class Compile:
     def show(self, code=str):
         if 'get>' in code.strip(' '): # if the show command might need to show a variable
             x = Compile()
-            y = x.compile(code)
+            y = x.compile(self.vars, code)
             if y[0] == 'ERROR': # if it doesn't need to show a variable or if there is an error in the statement
                 print(code)
                 return ['', '']

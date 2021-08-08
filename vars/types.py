@@ -8,7 +8,7 @@ class String(str):
         Creates a string
         :param value:
         """
-        self.value = value
+        self.value = str(value)
 
     def __repr__(self):
         return self.value

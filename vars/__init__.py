@@ -8,13 +8,13 @@ class Vars:
 
     def add(self, k, v):
         data_type = None
-        if v[0:1] == '[' and v[-2:-1] == ']':  # if it's a list
-            v = types.List(v)
-        else:
-            v = types.String(v)
+        if v[0:1] == 's':  # if it's a string
+            v = types.String(v[1:])  # creates a string
+        elif v[0:1] == 'l':  # list
+            v = types.String(v[1:])  # create a list [1:] removes the l character
         self.vars[k] = v
 
-    def view(self, k):
+    def get(self, k):
         return self.vars[k]
 
     def data_type(self, k):
