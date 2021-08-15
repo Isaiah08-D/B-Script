@@ -8,6 +8,8 @@ class String(str):
         Creates a string
         :param value:
         """
+
+        self.type = 'string'
         self.value = str(value)
 
     def __repr__(self):
@@ -37,18 +39,31 @@ class List:
         Creates a list
         :param value: the list to be created
         """
-        self.value = value
+        self.value = []
+        self.type = 'list'
+
+        for item in self.value.split(':'):
+            item = item.strip()
+            self.value.append(item)
 
     def _repr__(self):
         return self.value
 
-    def __str__(self, inbetween=''):
+    def __getitem__(self, item):
         """
-        Puts the list together into a string.
-        :param inbetween: what is inbetween the items in the list. Defaults to an empty string.
+        Get an item from the list.
+        :param item: Index of the item. Note that B-Script indexing starts with 1.
         :return:
         """
-        return inbetween.join(self.value)
+        return self.value[item-1]
+
+    def __str__(self, between=''):
+        """
+        Puts the list together into a string.
+        :param between: what is in-between the items in the list. Defaults to an empty string.
+        :return:
+        """
+        return between.join(self.value)
 
     def __list__(self):
         """
@@ -60,5 +75,3 @@ class List:
     def __len__(self):
         return len(self.value)
 
-    def __type__(self):
-        return 'list'
