@@ -2,6 +2,10 @@ import os
 import sys
 
 
+def __type__():
+    return 'string'
+
+
 class String(str):
     def __init__(self, value=str):
         """

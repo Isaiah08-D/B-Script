@@ -8,7 +8,7 @@ class Compile:
         self.commands = {'var': self.var, 'env': self.env, 'show': self.show, 'end': self.end, 'get': self.get,
                          'python': self.python}
 
-    def compile(self, vars, code=str, **kwargs):
+    def compile(self, variables, code=str, **kwargs):
         """
         Compiles code.
         :param code: line of code
@@ -16,7 +16,7 @@ class Compile:
         :return:
         """
 
-        self.vars = vars
+        self.variables = variables
 
         break_ = code.find('>')
         command = code[:break_].strip()
@@ -41,18 +41,16 @@ class Compile:
 
     def get(self, code=str):
         """Get a variable."""
+
         response = ''
-        if code.count('>') == 1:
-            response = self.vars.get(code)
-        elif code.count('>') == 2:
-            break_ = code.find('>')
-            var = self.vars.get(code[:break_])
-            if var.type == 'list':
-                response = var[code[break_+1:]]
-            elif var.type == 'int':
-                response = var[code[break_+1:]]
-            else:
-                errors.TypeError('Variable type must be list or string for second argument.', end=True)
+
+        var = self.variables.get(code)
+        if var.type == 'list':
+            response = var
+        elif var.type == 'string':
+            response = var
+        else:
+            errors.TypeError('Variable type must be list or string for second argument.', end=True)
 
         return [response]
 
@@ -62,12 +60,11 @@ class Compile:
     def show(self, code=str):
         if 'get>' in code.strip():  # if the show command might need to show a variable
             x = Compile()
-            y = x.compile(self.vars, code)
+            y = x.compile(self.variables, code)
             if y[0] == 'ERROR':  # if it doesn't need to show a variable or if there is an error in the statement
                 print(code)
                 return ['', '']
             print(y)
-
         else:
             print(code)
         return ['', '']
