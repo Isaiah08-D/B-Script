@@ -1,11 +1,14 @@
 from vars import Vars
 from compile import Compile
+import os
+
+PATH = os.path.expanduser('~')
 
 vars = Vars()
 compile = Compile()
 
 while True:
-    code = input('>>> ')
+    code = input(f"{PATH}: ")
     t = compile.compile(vars, code)
     if t[0] == 'ERROR':
         print(t[0] + '\n' + t[1])
@@ -13,8 +16,9 @@ while True:
         print('END')
         break
     elif t[0] == 'VAR':
-        if t[1][0] == 'def': # if the user is defining a new function or changing a variable completely
+        if t[1][0] == 'def':  # if the user is defining a new function or changing a variable completely
+
             vars.add(t[1][1], t[1][2])
-
-
-
+    elif t[0] == 'PATH': # if the comamnd is something related to the directory
+        if t[1][0] == '+': # if the user wants to add to the current directory
+            PATH += code

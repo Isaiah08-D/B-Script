@@ -17,3 +17,10 @@ class SyntaxError:
 
         if end:
             sys.exit()
+
+class InvalidPath:
+    def __init__(self, message, end=False):
+        print('INVALID PATH ERROR:\n' + str(message))
+
+        if end:
+            sys.exit()

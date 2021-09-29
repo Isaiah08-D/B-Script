@@ -46,7 +46,7 @@ class List:
         self.value = []
         self.type = 'list'
 
-        for item in self.value.split(':'):
+        for item in value[1:].split(':'):
             item = item.strip()
             self.value.append(item)
 
