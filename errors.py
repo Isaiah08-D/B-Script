@@ -1,5 +1,5 @@
 # errors.py: Holds different errors that end the program.
-
+import setup
 import sys
 
 

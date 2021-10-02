@@ -1,6 +1,6 @@
 import os
 from . import types
-
+import setup
 
 class Vars:
     def __init__(self):
@@ -12,6 +12,8 @@ class Vars:
             v = types.String(v[1:])  # creates a string [1:] removes the s character
         elif v[0:1] == 'l':  # list
             v = types.List(v[1:])  # create a list [1:] removes the l character
+        elif v[0:1] == 'i': # integer
+            v = types.Integer(v[1:]) # creates a integer [1:] removes the i character
         self.vars[k] = v
 
     def get(self, k):

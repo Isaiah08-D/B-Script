@@ -1,9 +1,8 @@
 import os
 import sys
+import setup
 
 
-def __type__():
-    return 'string'
 
 
 class String(str):
@@ -79,3 +78,30 @@ class List:
     def __len__(self):
         return len(self.value)
 
+    def __type__(self):
+        return self.type
+
+class Integer:
+    def __init__(self, value):
+        """
+        Creates a list
+        :param value: the list to be created
+        """
+        self.value = int(value)
+        self.type = 'integer'
+
+
+
+    def _repr__(self):
+        return self.value
+
+    def __str__(self):
+        """
+        Puts the list together into a string.
+        :param between: what is in-between the items in the list. Defaults to an empty string.
+        :return:
+        """
+        return str(self.__repr__)
+
+    def __len__(self):
+        return len(str(self.__repr__))

@@ -1,5 +1,7 @@
 import os
 import errors
+import setup
+import subprocess
 
 
 class Compile:
@@ -9,7 +11,7 @@ class Compile:
         self.commands = {'var': self.var, 'env': self.env, 'show': self.show, 'end': self.end, 'get': self.get,
                          'python': self.python, 'cd': self.cd}
 
-    def compile(self, variables, code=str, **kwargs):
+    def compile(self, variables, code:str, path:list, **kwargs):
         """
         Compiles code.
         :param code: line of code
@@ -18,6 +20,8 @@ class Compile:
         """
 
         self.variables = variables
+        self.path = path
+        self.path_str = '\\'.join(path)
 
         break_ = code.find('>')
         command = code[:break_].strip()
@@ -29,7 +33,7 @@ class Compile:
                 return ['ERROR', '">" character not found in code.']
             return ['ERROR', 'Command ' + command + ' not found.']
 
-    def var(self, code=str):
+    def var(self, code:str):
         """
         Set or change a variable.
         """
@@ -40,7 +44,7 @@ class Compile:
 
         return ['VAR', ['def', code[:break_], code[break_ + 1:]]]
 
-    def get(self, code=str):
+    def get(self, code:str):
         """Get a variable."""
 
         response = ''
@@ -50,15 +54,17 @@ class Compile:
             response = ':'.join(var)
         elif var.type == 'string':
             response = var
+        elif var.type == 'integer':
+            response = var.value
         else:
-            errors.TypeError('Variable type must be list or string for second argument.', end=True)
+            errors.TypeError('Variable type must be list, string or integer.', end=True)
 
         return [response]
 
-    def env(self, code=str):
+    def env(self, code:str):
         return ['']
 
-    def show(self, code=str):
+    def show(self, code:str):
         if 'get>' in code.strip():  # if the show command might need to show a variable
             x = Compile()
             y = x.compile(self.variables, code)
@@ -69,7 +75,7 @@ class Compile:
             print(code)
         return ['', '']
 
-    def end(self, code=str):
+    def end(self, code:str):
         """
         Ends the program.
 
@@ -77,28 +83,31 @@ class Compile:
         """
         return ['END', 'User ended with end.']
 
-    def python(self, code=str):
+    def python(self, code:str):
         """
         Runs a python file
         :param code: str
         :return:
         """
-        os.system('')
+        print(subprocess.run(['python', self.path_str + '\\' + code]).stdout.decode())
 
-    def cd(self, code=str):
+        return ['', '']
+
+    def cd(self, code:str):
         """"
         Adds to the directory
         
         :param code: str
         :return:
         """
-
-        if not os.path.exists(self.path + code.strip()):
+        
+        if not os.path.exists(self.path_str + '\\' + code.strip()):
             # if input is just the - charecter (if the user wants to go down a directory(s))
-            if code.strip() == len(code.strip()) + '-':
+            if code.strip() == str(len(code.strip())) + '-':
                 pass
             else:
-                errors.InvalidPath(f"The path {self.path+code.strip()} does not exist")
+                errors.InvalidPath(f"The path {self.path}\\{code.strip()} does not exist")
+                return ['', '']
         else:
             return ['PATH', ['+', code.strip()]]
 
