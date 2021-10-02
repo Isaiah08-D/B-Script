@@ -67,7 +67,7 @@ class Compile:
     def show(self, code:str):
         if 'get>' in code.strip():  # if the show command might need to show a variable
             x = Compile()
-            y = x.compile(self.variables, code)
+            y = x.compile(self.variables, code, self.path)
             if y[0] == 'ERROR':  # if there is an error in the statement
                 return ['', '']
             print(y[0])
