@@ -26,8 +26,16 @@ class Compile:
         break_ = code.find('>')
         command = code[:break_].strip()
 
-        if command in self.commands and break_ != -1:
-            return self.commands[command](code=code[break_ + 1:].replace(' ', ''))
+        if command in self.commands and break_ != -1: # 
+            code_nospace = code.replace(' ', '')
+            if 'get>' in code_nospace and code_nospace[0:4] != 'get>':  # if the command might need to show a variable
+                index = code_nospace.index('get>') 
+                x = Compile()
+                y = x.compile(self.variables, code[index+2:], self.path)
+
+                return self.commands[command](code=y[0])
+            else:
+                return self.commands[command](code=code[break_ + 1:].replace(' ', ''))
         else:
             if break_ == -1:
                 return ['ERROR', '">" character not found in code.']
@@ -65,14 +73,8 @@ class Compile:
         return ['']
 
     def show(self, code:str):
-        if 'get>' in code.strip():  # if the show command might need to show a variable
-            x = Compile()
-            y = x.compile(self.variables, code, self.path)
-            if y[0] == 'ERROR':  # if there is an error in the statement
-                return ['', '']
-            print(y[0])
-        else:
-            print(code)
+
+        print(code)
         return ['', '']
 
     def end(self, code:str):
