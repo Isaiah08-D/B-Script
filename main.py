@@ -22,4 +22,5 @@ while True:
         if t[1][0] == '+': # if the user wants to add to the current directory
             PATH.append(t[1][1])
         elif t[1][0] == '-': # if the user wants to go down a directory(s)
-            PATH.pop(len(t[1][1]))
+            for i in range(0, t[1][1]):
+                PATH.pop()

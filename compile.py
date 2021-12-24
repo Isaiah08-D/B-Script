@@ -105,8 +105,8 @@ class Compile:
         
         if not os.path.exists(self.path_str + '\\' + code.strip()):
             # if input is just the - charecter (if the user wants to go down a directory(s))
-            if code.strip() == str(len(code.strip())) + '-':
-                pass
+            if code.strip() == len(code.strip()) * '-': #if code.strip() is all '-'
+                return ['PATH', ['-', len(code.strip())]] # ['PATH', ['-', <how many minuses are in code>]]
             else:
                 errors.InvalidPath(f"The path {self.path}\\{code.strip()} does not exist")
                 return ['', '']

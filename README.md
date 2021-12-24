@@ -2,7 +2,7 @@
 A language to replace your command prompt.
 
 # Usage
-Note that most of these things may not currently work. All things that may not be working will be in italics. If something else is not working, please add an issue.
+Note that some of these things may not currently work. All things that may not be working will be in italics. If something else is not working, please add an issue.
 
 ## Functions
 ### The show command
